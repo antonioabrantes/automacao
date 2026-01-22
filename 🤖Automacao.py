@@ -5,8 +5,13 @@
 import streamlit as st
 import PyPDF2
 import re, os, io
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
 
-st.set_page_config(page_title="Resuma Petição do INPI", layout="wide")
+st.set_page_config(page_title="Resumo de Petição do INPI", layout="wide")
+load_dotenv() 
+groq_api_key = os.getenv("GROQ_API_KEY")
+llm = ChatGroq(model="openai/gpt-oss-20b",temperature=0.2, max_tokens=1024)
 
 def extrair_argumentacao_siscap(texto):
     """
