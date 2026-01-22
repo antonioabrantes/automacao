@@ -4,7 +4,9 @@
 
 import streamlit as st
 import PyPDF2
-import re, os
+import re, os, io
+
+st.set_page_config(page_title="Resuma Petição do INPI", layout="wide")
 
 def extrair_argumentacao_ipas(texto: str) -> str:
     """
