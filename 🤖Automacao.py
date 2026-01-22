@@ -98,8 +98,8 @@ if uploaded_file:
     #argumentacao = extrair_argumentacao_siscap(texto_ocr)
 
     texto_pdf = ler_pdf_pypdf2(pdf_bytes)
-    st.write("Tamanho original do arquivo:", len(argumentacao))
     argumentacao = extrair_argumentacao_siscap(texto_pdf)
+    st.write("Tamanho original do arquivo:", len(argumentacao))
     MAX_CHARS = 24000
     argumentacao = argumentacao[:MAX_CHARS]
 
