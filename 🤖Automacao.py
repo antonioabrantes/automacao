@@ -116,3 +116,5 @@ if uploaded_file:
         
     question = f"Resuma a argumentação do recurso: {argumentacao}"
     messages=[{"role":"user", "content":question}]
+    response = llm.invoke(messages)
+    st.write(response.content)
