@@ -9,6 +9,8 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 st.set_page_config(page_title="Resumo de Petição do INPI", layout="wide")
+st.title("📄 Resumo de Petição do INPI")
+
 load_dotenv() 
 groq_api_key = os.getenv("GROQ_API_KEY")
 llm = ChatGroq(model="openai/gpt-oss-20b",temperature=0.2, max_tokens=1024)
@@ -111,3 +113,6 @@ if uploaded_file:
             value=texto_pdf,
             height=400
         )
+        
+    question = f"Resuma a argumentação do recurso: {argumentacao}"
+    messages=[{"role":"user", "content":question}]
