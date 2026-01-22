@@ -8,6 +8,32 @@ import re, os, io
 
 st.set_page_config(page_title="Resuma Petição do INPI", layout="wide")
 
+def extrair_argumentacao_siscap(texto):
+    """
+    Extrai apenas a parte argumentativa típica de recursos do INPI
+    """
+    texto = texto.replace("\n", " ")
+
+    padrao_inicio = re.compile(
+        r"(Recurso contra o indeferimento|DOS ARGUMENTOS)",
+        re.IGNORECASE
+    )
+
+    padrao_fim = re.compile(
+        r"(CONSIDERAÇÕES FINAIS|CONCLUSÃO)",
+        re.IGNORECASE
+    )
+
+    inicio = padrao_inicio.search(texto)
+    fim = padrao_fim.search(texto)
+
+    if inicio:
+        start_idx = inicio.start()
+        end_idx = fim.start() if fim else len(texto)
+        return texto[start_idx:end_idx].strip()
+    else:
+        return "⚠️ Não foi possível identificar automaticamente a seção de argumentação."
+
 def extrair_argumentacao_ipas(texto: str) -> str:
     """
     Extrai apenas a argumentação do requerente em petições do INPI,
@@ -62,10 +88,10 @@ if uploaded_file:
     pdf_bytes = uploaded_file.read()
     
     #texto_ocr = ocr_pdf(pdf_bytes)
-    #argumentacao = extrair_argumentacao(texto_ocr)
+    #argumentacao = extrair_argumentacao_siscap(texto_ocr)
 
     texto_pdf = ler_pdf_pypdf2(pdf_bytes)
-    argumentacao = extrair_argumentacao(texto_pdf)
+    argumentacao = extrair_argumentacao_siscap(texto_pdf)
 
     st.subheader("🧠 Argumentação do Requerente (extraída automaticamente)")
     st.text_area(
