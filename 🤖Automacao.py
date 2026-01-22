@@ -4,6 +4,7 @@
 
 import streamlit as st
 import PyPDF2
+import re, os
 
 def extrair_argumentacao_ipas(texto: str) -> str:
     """
